@@ -1,0 +1,36 @@
+[project]
+name = "neomind-apex-ingestion"
+version = "0.1.0"
+description = "Neomind Apex Ingestion Platform"
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "uvicorn (>=0.35.0,<0.36.0)"
+]
+
+[tool.poetry]
+packages = [{include = "app", from = "src"}]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+ruff = "^0.12.9"
+black = "^25.1.0"
+pre-commit = "^4.3.0"
+
+# Configuration for the Ruff linter
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+# Configuration for the Black code formatter
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
