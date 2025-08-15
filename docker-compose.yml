@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      # Remove the 'target: builder' line - we want the final stage, not builder
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount source code for hot reloading during development
+      - ./src:/app/src
+    env_file:
+      - .env
+    depends_on:
+      - db
+    environment:
+      # Ensure PYTHONPATH is set correctly
+      - PYTHONPATH=/app/src
+    # Override the default CMD for development with hot reload
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  db:
+    image: supabase/postgres:15.1.0.116
+    ports:
+      - "54322:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+volumes:
+  db_data:
